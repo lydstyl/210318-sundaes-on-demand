@@ -16,6 +16,7 @@ it("Checkbox is unchecked by default", () => {
   expect(checkbox).not.toBeChecked();
   expect(button).toBeDisabled();
 });
+
 it("Checking checkbox enables button", () => {
   render(<SummaryForm />);
   const checkbox = screen.getByRole("checkbox", { name: termsCheckboxName });
@@ -26,6 +27,7 @@ it("Checking checkbox enables button", () => {
   expect(checkbox).toBeChecked();
   expect(button).toBeEnabled();
 });
+
 it("Unchecking checkbox again disables button", () => {
   render(<SummaryForm />);
   const checkbox = screen.getByRole("checkbox", { name: termsCheckboxName });
@@ -37,6 +39,7 @@ it("Unchecking checkbox again disables button", () => {
   expect(checkbox).not.toBeChecked();
   expect(button).toBeDisabled();
 });
+
 it("Popover responds to hover", async () => {
   render(<SummaryForm />);
 
