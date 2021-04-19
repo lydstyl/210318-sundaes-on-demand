@@ -22,4 +22,4 @@ it("handles error for scoops and toppings routes", async () => {
   });
 });
 
-// it.skip("not a real test", () => {});
+// it.skip("not a rewal test", () => {});
