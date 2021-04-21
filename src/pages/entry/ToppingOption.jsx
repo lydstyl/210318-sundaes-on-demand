@@ -9,7 +9,9 @@ export default function ToppingOption({ name, imagePath, updateItemCount }) {
       <Form.Group controlId={`${name}-topping-checkbox`}>
         <Form.Check
           type="checkbox"
-          onChange={(e) => updateItemCount(name, e.target.checked ? 1 : 0)}
+          onChange={(e) =>
+            updateItemCount(name, e.target.checked ? 1 : 0, "toopings")
+          }
           label={name}
         />
       </Form.Group>
