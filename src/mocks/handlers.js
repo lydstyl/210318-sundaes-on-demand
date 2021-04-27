@@ -9,6 +9,7 @@ export const handlers = [
       ])
     );
   }),
+
   rest.get("http://localhost:3030/toppings", (req, res, ctx) => {
     return res(
       ctx.json([
@@ -16,6 +17,12 @@ export const handlers = [
         { name: "M&Ms", imagePath: "/images/m-and-ms.png" },
         { name: "Hot fudge", imagePath: "/images/hot-fudge.png" },
       ])
+    );
+  }),
+
+  rest.post("http://localhost:3030/order", (req, res, ctx) => {
+    return res(
+      ctx.json([{ xxxx: "Hot fudge", yyyy: "/images/hot-fudge.png" }])
     );
   }),
 ];
