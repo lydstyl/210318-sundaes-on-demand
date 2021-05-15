@@ -7,7 +7,7 @@ export default function AlertBanner({ message, variant }) {
 
   return (
     <Alert variant={alertVariant} style={{ backgroundColor: "red" }}>
-      alertMessage
+      {alertMessage}
     </Alert>
   );
 }

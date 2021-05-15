@@ -3,7 +3,6 @@ import { useOrderDetails } from "../../contexts/OrderDetails";
 
 export default function OrderEntry() {
   const [orderDetails, , setOrderPhase] = useOrderDetails();
-  console.log("🚀 ~ OrderEntry ~ orderDetails", orderDetails);
 
   return (
     <>
