@@ -2,7 +2,8 @@ import Options from "./Options";
 import { useOrderDetails } from "../../contexts/OrderDetails";
 
 export default function OrderEntry() {
-  const [orderDetails] = useOrderDetails();
+  const [orderDetails, , setOrderPhase] = useOrderDetails();
+  console.log("🚀 ~ OrderEntry ~ orderDetails", orderDetails);
 
   return (
     <>
@@ -10,6 +11,8 @@ export default function OrderEntry() {
       <Options optionType="scoops" />
       <Options optionType="toppings" />
       <h2>Grand total: {orderDetails.totals.grandTotal}</h2>
+
+      <button onClick={() => setOrderPhase("review")}>Order Sundae</button>
     </>
   );
 }

@@ -48,6 +48,8 @@ export function OrderDetailsProvider(props) {
     grandTotal: zeroCurrency,
   });
 
+  const [orderPhase, setOrderPhase] = useState("inProgress");
+
   useEffect(() => {
     const scoopsSubtotal = calculateSubtotal("scoops", optionCounts);
     const toppingsSubtotal = calculateSubtotal("toppings", optionCounts);
@@ -71,11 +73,19 @@ export function OrderDetailsProvider(props) {
       setOptionCounts(newOptionCounts);
     }
 
+    // function setPhase(orderPhaseName) {
+    //   setOrderPhase(orderPhaseName);
+    // }
+
     // getter: object containing options counts for scoops and toppings, subtotals and totals
     // setter: updateOptionCount
 
-    return [{ ...optionCounts, totals }, updateItemCount];
-  }, [optionCounts, totals]);
+    return [
+      { ...optionCounts, totals, orderPhase },
+      updateItemCount,
+      setOrderPhase,
+    ];
+  }, [optionCounts, totals, orderPhase]);
 
   return <OrderDetails.Provider value={value} {...props} />;
 }
