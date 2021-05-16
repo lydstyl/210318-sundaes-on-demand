@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import App from "../App";
@@ -7,9 +7,9 @@ it("Order phases for happy path", async () => {
   // render app
   render(<App />);
 
-  // prevent the async act(...) error
-  await screen.findByRole("spinbutton", { name: "Vanilla" });
-  await screen.findByRole("checkbox", { name: "Cherries" });
+  // // prevent the async act(...) error
+  // await screen.findByRole("spinbutton", { name: "Vanilla" });
+  // await screen.findByRole("checkbox", { name: "Cherries" });
 
   // add ice cream scoops and toppings
   const vanillaInput = await screen.findByRole("spinbutton", {
@@ -41,7 +41,6 @@ it("Order phases for happy path", async () => {
   userEvent.click(orderButton);
 
   // check summary information based on order
-  //
   const pageTitle = screen.getByRole("heading", { name: /Order Summary/i });
   expect(pageTitle).toHaveTextContent(/Order Summary/i);
 
@@ -73,9 +72,24 @@ it("Order phases for happy path", async () => {
   // confirm order number on confirmation page
   userEvent.click(confirmButton);
 
+  await waitFor(async () => {
+    const orderNumber = await screen.findByTitle("order-number");
+
+    expect(orderNumber).toHaveTextContent(/123456/i);
+  });
+
   // click "new order" button on confirmation page
+  const newOrderButton = await screen.getByRole("button", {
+    name: /new order/i,
+  });
+  userEvent.click(newOrderButton);
+
+  await screen.findByRole("spinbutton", { name: "Vanilla" });
+  await screen.findByRole("checkbox", { name: "Cherries" });
 
   // check that scoops and topings subtotals have been reset
-
-  // do we need to await anything to avaoid test errors ?
+  const inProgressPageTitle = await screen.findByRole("heading", {
+    name: /design your sundae/i,
+  });
+  expect(inProgressPageTitle).toHaveTextContent(/design your sundae/i);
 });
