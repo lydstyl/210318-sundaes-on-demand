@@ -21,21 +21,27 @@ export default function OrderConfirmation() {
 
   return (
     <>
-      <h1>Thank you</h1>
+      {!orderNumber ? (
+        <h1>Loading</h1>
+      ) : (
+        <>
+          <h1>Thank you</h1>
 
-      <p>
-        Your order number is <span title="order-number">{orderNumber}</span>
-      </p>
+          <p>
+            Your order number is <span title="order-number">{orderNumber}</span>
+          </p>
 
-      <p>as per our terms and conditions, nothing will happen now</p>
+          <p>as per our terms and conditions, nothing will happen now</p>
 
-      <Button
-        onClick={() => setOrderPhase("inProgress")}
-        variant="primary"
-        type="submit"
-      >
-        Create new order{" "}
-      </Button>
+          <Button
+            onClick={() => setOrderPhase("inProgress")}
+            variant="primary"
+            type="submit"
+          >
+            Create new order{" "}
+          </Button>
+        </>
+      )}
     </>
   );
 }

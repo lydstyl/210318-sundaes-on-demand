@@ -72,10 +72,15 @@ it("Order phases for happy path", async () => {
   // confirm order number on confirmation page
   userEvent.click(confirmButton);
 
+  // const confirmationTitle = screen.getByRole("heading", { name: /thank you/i });
+  const loading = screen.getByRole("heading", { name: /loading/i });
+  expect(loading).toBeInTheDocument();
+
   await waitFor(async () => {
     const orderNumber = await screen.findByTitle("order-number");
 
     expect(orderNumber).toHaveTextContent(/123456/i);
+    expect(loading).not.toBeInTheDocument();
   });
 
   // click "new order" button on confirmation page
