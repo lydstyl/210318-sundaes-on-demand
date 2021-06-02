@@ -1,3 +1,5 @@
+import userEvent from "@testing-library/user-event";
+
 import {
   render,
   screen,
@@ -26,4 +28,22 @@ it("handles error for scoops and toppings routes", async () => {
   });
 });
 
-// it.skip("not a rewal test", () => {});
+it.only("Disable order button for no scoops", async () => {
+  render(<OrderEntry setOrderPhase={jest.fn()} />);
+
+  const vanillaInput = await screen.findByRole("spinbutton", {
+    name: /vanilla/i,
+  });
+  expect(vanillaInput).toBeInTheDocument();
+
+  const orderButton = screen.getByRole("button", { name: /order sundae/i });
+  expect(orderButton).toBeDisabled();
+
+  userEvent.clear(vanillaInput);
+  userEvent.type(vanillaInput, "1");
+  expect(orderButton).toBeEnabled();
+
+  userEvent.clear(vanillaInput);
+  userEvent.type(vanillaInput, "0");
+  expect(orderButton).toBeDisabled();
+});
