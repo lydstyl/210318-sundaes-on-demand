@@ -22,8 +22,12 @@ export default function OrderSummary({ orderDetails }) {
       <h2>Scoops: {orderDetails.totals.scoops}</h2>
       <ul title="scoops-list">{scoops}</ul>
 
-      <h2>Toppings: {orderDetails.totals.toppings}</h2>
-      <ul title="toppings-list">{toppings}</ul>
+      {orderDetails.totals.toppings !== "$0.00" && (
+        <>
+          <h2>Toppings: {orderDetails.totals.toppings}</h2>
+          <ul title="toppings-list">{toppings}</ul>
+        </>
+      )}
 
       <h2>Total: {orderDetails.totals.grandTotal}</h2>
 

@@ -98,3 +98,22 @@ it("Order phases for happy path", async () => {
   });
   expect(inProgressPageTitle).toHaveTextContent(/design your sundae/i);
 });
+
+it("Toppings header is not there", async () => {
+  render(<App />);
+  const vanillaInput = await screen.findByRole("spinbutton", {
+    name: "Vanilla",
+  });
+  userEvent.clear(vanillaInput);
+  userEvent.type(vanillaInput, "3"); // *2
+
+  const orderButton = screen.getByRole("button", { name: /Order Sundae/i });
+  userEvent.click(orderButton);
+
+  const scoopsTitle = screen.getByRole("heading", { name: /Scoops/i });
+  expect(scoopsTitle).toHaveTextContent(/\$6.00/i);
+
+  const toppingsHeader = screen.queryByRole("heading", { name: /Toppings/i });
+
+  expect(toppingsHeader).not.toBeInTheDocument();
+});
