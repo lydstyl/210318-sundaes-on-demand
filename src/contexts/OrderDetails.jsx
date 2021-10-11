@@ -1,76 +1,76 @@
-import { createContext, useContext, useState, useMemo, useEffect } from "react";
-import { pricePerItem } from "../constants/index";
+import { createContext, useContext, useState, useMemo, useEffect } from "react"
+import { pricePerItem } from "../constants/index"
 
 function formatCurrency(amount) {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
     minimumFractionDigits: 2,
-  }).format(amount);
+  }).format(amount)
 }
 
 // @ts-ignore
-const OrderDetails = createContext();
+const OrderDetails = createContext()
 
 // create custom hook to check wheter we're inside a provider
 export function useOrderDetails() {
-  const context = useContext(OrderDetails);
+  const context = useContext(OrderDetails)
 
   if (!context) {
     throw new Error(
-      "useOrderDetails must be used within an OrderDetailsProvider"
-    );
+      "useOrderDetails must be used within an OrderDetailsProvider",
+    )
   }
 
-  return context;
+  return context
 }
 
 function calculateSubtotal(optionType, optionCounts) {
-  let optionCount = 0;
+  let optionCount = 0
   for (const count of optionCounts[optionType].values()) {
-    optionCount += count;
+    optionCount += count
   }
 
-  return optionCount * pricePerItem[optionType];
+  return optionCount * pricePerItem[optionType]
 }
 
 export function OrderDetailsProvider(props) {
   const [optionCounts, setOptionCounts] = useState({
     scoops: new Map(),
     toppings: new Map(),
-  });
+  })
 
-  const zeroCurrency = formatCurrency(0);
+  const zeroCurrency = formatCurrency(0)
 
   const [totals, setTotals] = useState({
     scoops: zeroCurrency,
     toppings: zeroCurrency,
     grandTotal: zeroCurrency,
-  });
+  })
 
-  const [orderPhase, setOrderPhase] = useState("inProgress");
+  const [orderPhase, setOrderPhase] = useState("inProgress")
 
   useEffect(() => {
-    const scoopsSubtotal = calculateSubtotal("scoops", optionCounts);
-    const toppingsSubtotal = calculateSubtotal("toppings", optionCounts);
-    const grandTotal = scoopsSubtotal + toppingsSubtotal;
+    const scoopsSubtotal = calculateSubtotal("scoops", optionCounts)
+    const toppingsSubtotal = calculateSubtotal("toppings", optionCounts)
+    const grandTotal = scoopsSubtotal + toppingsSubtotal
 
     setTotals({
       scoops: formatCurrency(scoopsSubtotal),
       toppings: formatCurrency(toppingsSubtotal),
       grandTotal: formatCurrency(grandTotal),
-    });
-  }, [optionCounts]);
+    })
+  }, [optionCounts])
 
   const value = useMemo(() => {
     function updateItemCount(itemName, newItemCount, optionType) {
-      const newOptionCounts = { ...optionCounts };
+      const newOptionCounts = { ...optionCounts }
 
       // update option count for this item
-      const optionCountsMap = optionCounts[optionType]; // newOptionCounts ??
-      optionCountsMap.set(itemName, parseInt(newItemCount));
+      const optionCountsMap = optionCounts[optionType] // newOptionCounts ??
+      optionCountsMap.set(itemName, parseInt(newItemCount))
 
-      setOptionCounts(newOptionCounts);
+      setOptionCounts(newOptionCounts)
     }
 
     // function setPhase(orderPhaseName) {
@@ -84,8 +84,8 @@ export function OrderDetailsProvider(props) {
       { ...optionCounts, totals, orderPhase },
       updateItemCount,
       setOrderPhase,
-    ];
-  }, [optionCounts, totals, orderPhase]);
+    ]
+  }, [optionCounts, totals, orderPhase])
 
-  return <OrderDetails.Provider value={value} {...props} />;
+  return <OrderDetails.Provider value={value} {...props} />
 }
